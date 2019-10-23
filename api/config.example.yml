@@ -44,6 +44,9 @@ pgsql:
 cartodb:
   apiKey: XXX
   user: XXX
+  url: carto.com
+  https: true
+  subdomainlessUrls: true
   active: true
   # Optional. Default to false. If you've an enterprise account at CartoDB you must set this param to true
   enterprise: false

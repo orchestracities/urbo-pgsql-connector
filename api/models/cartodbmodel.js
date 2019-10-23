@@ -29,7 +29,15 @@ function CartoDBModel(cfg){
   this._user = cfg.user;
   this._apiKey = cfg.apiKey;
   this._enterprise = cfg.enterprise;
-  this._sql = new CartoDB.SQL({user: cfg.user,api_key: cfg.apiKey, sql_api_url: 'https://'+ cfg.user+ '.carto.com/api/v2/sql'});
+  var http = cfg.https ? 'https' : 'http';
+  if (cfg.url && cfg.subdomainlessUrls){
+    this._cartoUrl = http + '://' + cfg.url + '/user/' + cfg.user;
+  } else if (cfg.url && !cfg.subdomainlessUrls) {
+    this._cartoUrl = http + '://' + cfg.user + '.' + cfg.url;
+  } else {
+    this._cartoUrl = 'https://' + cfg.user+ '.carto.com'
+  }
+  this._sql = new CartoDB.SQL({user: cfg.user,api_key: cfg.apiKey, sql_api_url: this._cartoUrl + '/api/v2/sql'});
   this._squel = require('squel');
 };
 

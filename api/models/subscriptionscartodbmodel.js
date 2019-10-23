@@ -36,7 +36,8 @@ util.inherits(SubscriptionsCartoDBModel, CartoDBModel);
 SubscriptionsCartoDBModel.prototype.createTable = function(sub,cb){
   var schemaName = sub.schemaname;
   var schemaTable = schemaName+'_'+sub.id;
-  var sql = ["SELECT count(*) as n FROM urbo_get_user_tables('"+this._user+"')",
+  var schema = this._enterprise ? this._user: 'public';
+  var sql = ["SELECT count(*) as n FROM urbo_get_user_tables('"+schema+"')",
              " WHERE urbo_get_user_tables = '{{table}}'"];
 
   var that = this;
@@ -78,7 +79,8 @@ SubscriptionsCartoDBModel.prototype.createTable = function(sub,cb){
       }
 
       var tableName = that._enterprise ? utils.wrapStrings(that._user,['"']) + '.' + schemaTable : schemaTable;
-      var cartodbfy = "SELECT CDB_Cartodbfytable('" +that._user + "','" + schemaTable +"');";
+      var schema = that._enterprise ? that._user: 'public';
+      var cartodbfy = "SELECT CDB_Cartodbfytable('" + schema + "','" + schemaTable +"');";
 
       var q = [
         'CREATE TABLE ' + tableName + ' (',
