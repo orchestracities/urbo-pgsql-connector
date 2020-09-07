@@ -38,7 +38,7 @@ SubscriptionsCartoDBModel.prototype.createTable = function(sub,cb){
   var schemaTable = schemaName+'_'+sub.id;
   var schema = this._enterprise ? this._user: 'public';
   var sql = ["SELECT count(*) as n FROM urbo_get_user_tables('"+schema+"')",
-             " WHERE urbo_get_user_tables = '{{table}}'"];
+             "WHERE urbo_get_user_tables = '{{table}}'"];
 
   var that = this;
   this.query({
